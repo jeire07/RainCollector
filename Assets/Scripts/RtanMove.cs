@@ -1,39 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class rtan : MonoBehaviour
+public class RtanMove : MonoBehaviour
 {
-    float direction = 0.05f;
-    float toward = 1.0f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float _direction = 0.05f;
+    private float _toward = 1.0f;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            toward *= -1;
-            direction *= -1;
+            _toward *= -1;
+            _direction *= -1;
         }
+
         if (transform.position.x > 2.8f)
         {
-            direction = -0.05f;
-            toward = -1.0f;
+            _direction = -0.05f;
+            _toward = -1.0f;
         }
+
         if (transform.position.x < -2.8f)
         {
-            direction = 0.05f;
-            toward = 1.0f;
+            _direction = 0.05f;
+            _toward = 1.0f;
         }
-        transform.localScale = new Vector3(toward, 1, 1);
-        transform.position += new Vector3(direction, 0, 0);
-        // Debug.Log(transform.position.x);
-        // FixedUpdate 사용시 FixedUpdate로 이동함
+
+        transform.localScale = new Vector3(_toward, 1, 1);
+        transform.position += new Vector3(_direction, 0, 0);
     }
 }
