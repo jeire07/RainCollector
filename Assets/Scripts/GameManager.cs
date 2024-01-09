@@ -1,66 +1,75 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject rain;
-    public GameObject panel;
-    public static GameManager I;
-    public Text scoreText;
-    public Text timeText;
-    int totalScore = 0;
-    float limit = 10.0f;
+    public GameObject Rain;
+    public GameObject Panel;
+
+    public static GameManager Instance;
+
+    public Text ScoreText;
+    public Text TimeText;
+
+    private int _totalScore = 0;
+    private float _limit = 10.0f;
 
     void Awake()
     {
-        I = this;
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
+
     // Start is called before the first frame update
     void Start()
     {
         InvokeRepeating("makeRain", 0.0f, 0.5f);
-        initGame();
+        InitGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        limit -= Time.deltaTime;
+        _limit -= Time.deltaTime;
 
-        if (limit < 0)
+        if (_limit < 0)
         {
-            limit = 0.0f;
-            panel.SetActive(true);
+            _limit = 0.0f;
+            Panel.SetActive(true);
             Time.timeScale = 0.0f;
         }
 
-        timeText.text = limit.ToString("N2");
+        TimeText.text = _limit.ToString("N2");
     }
 
-    void makeRain()
+    private void MakeRain()
     {
         //Debug.Log("비를 내려라!");
-        Instantiate(rain);
+        Instantiate(Rain);
     }
 
-    public void addScore(int score)
+    public void AddScore(int score)
     {
-        totalScore += score;
-        scoreText.text = totalScore.ToString();
+        _totalScore += score;
+        ScoreText.text = _totalScore.ToString();
     }
 
-    public void retry()
+    public void Retry()
     {
         SceneManager.LoadScene("MainScene");
     }
 
-    void initGame()
+    private void InitGame()
     {
         Time.timeScale = 1.0f;
-        totalScore = 0;
-        limit = 10.0f;
+        _totalScore = 0;
+        _limit = 10.0f;
     }
 }
